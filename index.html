@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Allada Sai Likhitha | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anta&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050d1a;
+      --surface: #0b1628;
+      --card: #0f1e35;
+      --border: rgba(100, 200, 255, 0.12);
+      --text: #8ca0be;
+      --heading: #dce8ff;
+      --accent: #38bdf8;
+      --accent2: #7c3aed;
+      --accent3: #06d6a0;
+      --glow: rgba(56, 189, 248, 0.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Anta', 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Animated background canvas ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 5%;
+      background: rgba(5, 13, 26, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Anta', 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--accent3); }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      position: relative;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+      padding: 100px 5% 60px;
+    }
+
+    /* ── Left: Text ── */
+    .hero-text { animation: fadeSlideUp 0.9s ease both; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Anta', 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent3);
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: var(--accent3);
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2rem, 7vw, 3.8rem);
+      font-weight: 700;
+      color: var(--heading);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .hero-text h1 .name-accent {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-text h2 {
+      font-size: clamp(1rem, 2.2vw, 1.5rem);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 18px;
+      min-height: 2.2em;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px; height: 1em;
+      background: var(--accent);
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink 0.7s step-end infinite;
+    }
+
+    .hero-text p {
+      font-size: clamp(0.92rem, 1.2vw, 1rem);
+      line-height: 1.7;
+      color: var(--text);
+      max-width: 480px;
+      margin-bottom: 28px;
+    }
+
+    .cta-group { 
+      display: flex; 
+      gap: 12px; 
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 24px var(--glow);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-3px); }
+
+    .btn-outline {
+      padding: 12px 24px;
+      border: 1.5px solid var(--border);
+      color: var(--heading);
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.88rem;
+      transition: border-color 0.3s, color 0.3s, transform 0.3s;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* ── Right: Image ── */
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeSlideUp 1.1s ease 0.2s both;
+    }
+
+    .image-frame {
+      position: relative;
+      width: min(320px, 80vw);
+      aspect-ratio: 1 / 1;
+    }
+
+    /* Rotating border rings */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+    }
+
+    .ring-1 {
+      inset: -16px;
+      border-color: var(--accent);
+      border-top-color: transparent;
+      border-right-color: transparent;
+      animation: spin 8s linear infinite;
+      opacity: 0.6;
+    }
+
+    .ring-2 {
+      inset: -30px;
+      border-color: var(--accent2);
+      border-bottom-color: transparent;
+      border-left-color: transparent;
+      animation: spin 14s linear infinite reverse;
+      opacity: 0.4;
+    }
+
+    .ring-3 {
+      inset: -44px;
+      border-color: var(--accent3);
+      border-top-color: transparent;
+      animation: spin 20s linear infinite;
+      opacity: 0.25;
+    }
+
+    /* Glow blob behind image */
+    .image-frame::before {
+      content: '';
+      position: absolute;
+      inset: -10%;
+      background: radial-gradient(circle, rgba(56,189,248,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .image-frame img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(56, 189, 248, 0.3);
+      filter: saturate(1.1) contrast(1.05);
+      transition: filter 0.4s;
+    }
+
+    .image-frame:hover img { filter: saturate(1.2) contrast(1.1); }
+
+    /* Floating skill badges */
+    .badge {
+      position: absolute;
+      z-index: 2;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 14px;
+      font-size: 0.7rem;
+      font-family: 'Anta', 'JetBrains Mono', monospace;
+      color: var(--heading);
+      white-space: nowrap;
+      animation: float 4s ease-in-out infinite;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .badge-1 { top: 6%; right: -18%; animation-delay: 0s; color: var(--accent); border-color: rgba(56,189,248,0.3); }
+    .badge-2 { bottom: 12%; right: -24%; animation-delay: 1.5s; color: var(--accent3); border-color: rgba(6,214,160,0.3); }
+    .badge-3 { bottom: 18%; left: -20%; animation-delay: 0.8s; color: var(--accent2); border-color: rgba(124,58,237,0.3); }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 0 5%;
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeSlideUp 1.2s ease 0.4s both;
+    }
+
+    .stat {
+      background: var(--card);
+      padding: 20px 16px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .stat:hover { background: rgba(56,189,248,0.06); }
+
+    .stat-num {
+      display: block;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--heading);
+      font-family: 'Anta', 'JetBrains Mono', monospace;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label { font-size: 0.75rem; color: var(--text); margin-top: 4px; }
+
+    /* ── Focus tags ── */
+    .focus-row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 32px 5% 50px;
+      animation: fadeSlideUp 1.3s ease 0.5s both;
+    }
+
+    .focus-tag {
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.78rem;
+      color: var(--text);
+      font-family: 'Anta', 'JetBrains Mono', monospace;
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .focus-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(56,189,248,0.07);
+    }
+
+    /* ── Keyframes ── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 90px;
+        gap: 30px;
+      }
+
+      .hero-text { order: 2; }
+      .hero-image { order: 1; }
+
+      .eyebrow { 
+        justify-content: center; 
+        font-size: 0.7rem;
+      }
+      
+      .eyebrow::before {
+        width: 20px;
+      }
+
+      .hero-text p { 
+        margin: 0 auto 24px; 
+        max-width: 100%;
+      }
+      
+      .cta-group { 
+        justify-content: center; 
+      }
+
+      .badge { display: none; }
+
+      .image-frame { 
+        width: min(220px, 60vw); 
+        margin: 0 auto;
+      }
+
+      .ring-1 { inset: -12px; }
+      .ring-2 { inset: -22px; }
+      .ring-3 { inset: -34px; }
+
+      .stats-strip { 
+        grid-template-columns: 1fr; 
+        margin: 0 5%; 
+        border-radius: 8px;
+      }
+
+      .stat {
+        padding: 16px;
+      }
+
+      .stat-num {
+        font-size: 1.4rem;
+      }
+
+      .focus-row {
+        padding: 24px 5% 40px;
+        gap: 8px;
+      }
+
+      .focus-tag {
+        font-size: 0.7rem;
+        padding: 5px 14px;
+      }
+
+      nav {
+        padding: 12px 5%;
+      }
+
+      .logo {
+        font-size: 0.85rem;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
+
+      .nav-links a {
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding-top: 80px;
+        padding-left: 4%;
+        padding-right: 4%;
+        gap: 24px;
+      }
+
+      .hero-text h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero-text h2 {
+        font-size: 0.95rem;
+        min-height: 2.4em;
+      }
+
+      .hero-text p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+      }
+
+      .btn-primary, .btn-outline {
+        padding: 10px 18px;
+        font-size: 0.8rem;
+      }
+
+      .cta-group {
+        gap: 10px;
+      }
+
+      .image-frame {
+        width: min(180px, 55vw);
+      }
+
+      .stats-strip {
+        margin: 0 4%;
+      }
+
+      .stat {
+        padding: 14px;
+      }
+
+      .stat-num {
+        font-size: 1.2rem;
+      }
+
+      .stat-label {
+        font-size: 0.7rem;
+      }
+
+      .focus-row {
+        padding: 20px 4% 32px;
+        gap: 6px;
+      }
+
+      .focus-tag {
+        font-size: 0.65rem;
+        padding: 4px 12px;
+      }
+
+      nav {
+        padding: 10px 4%;
+      }
+
+      .logo {
+        font-size: 0.75rem;
+      }
+
+      .nav-links {
+        gap: 10px;
+      }
+
+      .nav-links a {
+        font-size: 0.62rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .hero-text h1 {
+        font-size: 1.5rem;
+      }
+
+      .nav-links {
+        gap: 8px;
+      }
+
+      .nav-links a {
+        font-size: 0.55rem;
+      }
+
+      .btn-primary, .btn-outline {
+        padding: 8px 14px;
+        font-size: 0.7rem;
+      }
+
+      .image-frame {
+        width: min(150px, 50vw);
+      }
+    }
+
+    /* ── Touch-friendly hover states ── */
+    @media (hover: none) {
+      .btn-primary:hover, .btn-outline:hover {
+        transform: none;
+      }
+      
+      .focus-tag:hover {
+        border-color: var(--border);
+        color: var(--text);
+        background: transparent;
+      }
+      
+      .stat:hover {
+        background: var(--card);
+      }
+      
+      .image-frame:hover img {
+        filter: saturate(1.1) contrast(1.05);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { 
+        animation-duration: 0.01ms !important; 
+        transition-duration: 0.01ms !important; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">M.Tech · Andhra University</div>
+
+    <h1>
+      Allada<br>
+      <span class="name-accent">Sai Likhitha</span>
+    </h1>
+
+    <h2>
+      Specializing in&nbsp;<span id="typing"></span><span class="typing-cursor"></span>
+    </h2>
+
+    <p>
+      Passionate about securing digital infrastructures, analyzing network architectures,
+      and building robust defenses against cyber threats. Turning complexity into clarity,
+      one protocol at a time.
+    </p>
+
+    <div class="cta-group">
+      <a href="projects.html" class="btn-primary">View My Work</a>
+      <a href="contact.html" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-image">
+    <div class="image-frame">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+      <img src="images/mypic.JPG" alt="Allada Sai Likhitha" />
+      <div class="badge badge-1">⚡ Cyber Defense</div>
+      <div class="badge badge-2">🔒 InfoSec</div>
+      <div class="badge badge-3">🌐 Networks</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="stat">
+    <span class="stat-num">M.Tech</span>
+    <div class="stat-label">Current Degree</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">3+</span>
+    <div class="stat-label">Projects Completed</div>
+  </div>
+  <div class="stat">
+    <span class="stat-num">∞</span>
+    <div class="stat-label">Problems to Solve</div>
+  </div>
+</div>
+
+<div class="focus-row">
+  <span class="focus-tag">Network Security</span>
+  <span class="focus-tag">Penetration Testing</span>
+  <span class="focus-tag">Cryptography</span>
+  <span class="focus-tag">Intrusion Detection</span>
+  <span class="focus-tag">Firewall Architecture</span>
+  <span class="focus-tag">Vulnerability Analysis</span>
+</div>
+
+<script>
+  /* ── Particle / grid background ── */
+  (function() {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, dots = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function makeDot() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.6 + 0.4,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        alpha: Math.random() * 0.5 + 0.1
+      };
+    }
+
+    function init() {
+      resize();
+      dots = Array.from({ length: 120 }, makeDot);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      dots.forEach(d => {
+        d.x += d.vx; d.y += d.vy;
+        if (d.x < 0) d.x = W;
+        if (d.x > W) d.x = 0;
+        if (d.y < 0) d.y = H;
+        if (d.y > H) d.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(56,189,248,${d.alpha})`;
+        ctx.fill();
+      });
+
+      /* draw connections */
+      for (let i = 0; i < dots.length; i++) {
+        for (let j = i + 1; j < dots.length; j++) {
+          const dx = dots[i].x - dots[j].x;
+          const dy = dots[i].y - dots[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(dots[i].x, dots[i].y);
+            ctx.lineTo(dots[j].x, dots[j].y);
+            ctx.strokeStyle = `rgba(56,189,248,${0.07 * (1 - dist / 130)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    init();
+    draw();
+  })();
+
+  /* ── Typing effect ── */
+  (function() {
+    const words = ['Computer Networks.', 'Information Security.', 'Cyber Defense.'];
+    const el = document.getElementById('typing');
+    let wi = 0, ci = 0, deleting = false;
+
+    function tick() {
+      const word = words[wi];
+      if (!deleting) {
+        el.textContent = word.slice(0, ++ci);
+        if (ci === word.length) {
+          deleting = true;
+          setTimeout(tick, 2200);
+          return;
+        }
+        setTimeout(tick, 100);
+      } else {
+        el.textContent = word.slice(0, --ci);
+        if (ci === 0) {
+          deleting = false;
+          wi = (wi + 1) % words.length;
+          setTimeout(tick, 400);
+          return;
+        }
+        setTimeout(tick, 50);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => setTimeout(tick, 600));
+  })();
+</script>
+</body>
+</html>

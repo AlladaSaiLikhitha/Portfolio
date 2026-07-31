@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Projects & Skills | Allada Sai Likhitha</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0b0f1a;
+            --surface: #131b2e;
+            --card: #192237;
+            --border: rgba(100, 200, 255, 0.07);
+            --text: #94a9c9;
+            --heading: #e3ecff;
+            --accent: #64f0da;
+            --accent2: #7c6df0;
+            --accent3: #f6b26b;
+            --glow: rgba(100, 240, 218, 0.12);
+            --radius: 18px;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-top: 80px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ── Canvas BG ── */
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ── Navigation ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 5%;
+            height: 68px;
+            background: rgba(11, 15, 26, 0.85);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid var(--border);
+            animation: slideDown 0.7s var(--ease) both;
+        }
+
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+        .nav-links a {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+            white-space: nowrap;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s var(--ease);
+            border-radius: 4px;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--heading);
+        }
+        .nav-links a.active::after,
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ── Page ── */
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 5% 60px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            margin-bottom: 44px;
+            animation: fadeUp 0.9s var(--ease) 0.15s both;
+        }
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        .hero h1 {
+            font-family: 'Castoro Titling', serif;
+            font-size: clamp(2rem, 7vw, 4.4rem);
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--heading);
+            letter-spacing: -0.02em;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            margin-top: 12px;
+            font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+            color: var(--text);
+            max-width: 480px;
+            font-weight: 300;
+        }
+
+        /* ── Section titles ── */
+        .section-title {
+            font-family: 'Castoro Titling', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            font-weight: 400;
+            color: var(--heading);
+            letter-spacing: -0.01em;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+        }
+        .section-title i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* ── Skills ── */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+        .skill-pill {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 12px 18px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--heading);
+            transition: all 0.3s var(--ease);
+            backdrop-filter: blur(4px);
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .skill-pill i {
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+        .skill-pill:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(100, 240, 218, 0.08);
+            background: rgba(100, 240, 218, 0.04);
+        }
+
+        /* ── Projects Grid ── */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 22px;
+            transition: all 0.4s var(--ease);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            animation: fadeUp 0.8s var(--ease) both;
+            opacity: 0;
+        }
+        .project-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+        .project-card:nth-child(2) {
+            animation-delay: 0.35s;
+        }
+        .project-card:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .project-card:hover {
+            border-color: rgba(100, 240, 218, 0.25);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .project-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(100, 240, 218, 0.06);
+            border: 1px solid rgba(100, 240, 218, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--accent);
+            flex-shrink: 0;
+            transition: background 0.3s;
+        }
+        .project-card:hover .project-icon {
+            background: rgba(100, 240, 218, 0.1);
+        }
+
+        .project-title {
+            font-family: 'Castoro Titling', serif;
+            font-size: clamp(1rem, 1.5vw, 1.15rem);
+            font-weight: 400;
+            color: var(--heading);
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+
+        .project-desc {
+            font-size: clamp(0.82rem, 1vw, 0.92rem);
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 14px;
+            flex: 1;
+            font-weight: 300;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            margin-bottom: 16px;
+        }
+        .project-tech span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 400;
+            color: var(--accent);
+            background: rgba(100, 240, 218, 0.05);
+            padding: 3px 10px;
+            border-radius: 40px;
+            border: 1px solid rgba(100, 240, 218, 0.06);
+            letter-spacing: 0.03em;
+        }
+
+        .project-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent3);
+            background: rgba(246, 178, 107, 0.06);
+            border: 1px solid rgba(246, 178, 107, 0.1);
+            padding: 3px 10px;
+            border-radius: 40px;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+
+        /* ── Footer ── */
+        footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text);
+            letter-spacing: 0.08em;
+        }
+        footer span {
+            color: var(--accent);
+        }
+
+        /* ── Keyframes ── */
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 860px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .skills-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+            nav {
+                padding: 0 5%;
+                height: 62px;
+            }
+            .nav-links {
+                gap: 20px;
+            }
+            .nav-links a {
+                font-size: 0.7rem;
+            }
+            .page {
+                padding: 24px 5% 50px;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero {
+                margin-bottom: 36px;
+            }
+            .section-title {
+                font-size: 1.1rem;
+                margin-bottom: 18px;
+            }
+            .project-card {
+                padding: 20px 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .skill-pill {
+                padding: 10px 14px;
+                font-size: 0.65rem;
+            }
+            .skill-pill i {
+                font-size: 0.7rem;
+            }
+            .project-card {
+                padding: 18px 16px;
+                border-radius: 14px;
+            }
+            .project-header {
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            .project-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 0.85rem;
+                border-radius: 8px;
+            }
+            .project-title {
+                font-size: 0.95rem;
+            }
+            .project-desc {
+                font-size: 0.78rem;
+                margin-bottom: 12px;
+            }
+            .project-tech {
+                gap: 5px 8px;
+                margin-bottom: 12px;
+            }
+            .project-tech span {
+                font-size: 0.55rem;
+                padding: 2px 8px;
+            }
+            .project-tag {
+                font-size: 0.5rem;
+                padding: 2px 8px;
+            }
+            nav {
+                height: 56px;
+                padding: 0 4%;
+            }
+            .nav-links {
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: 0.6rem;
+            }
+            .page {
+                padding: 18px 4% 40px;
+            }
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+            .hero-sub {
+                font-size: 0.82rem;
+                margin-top: 8px;
+            }
+            .hero {
+                margin-bottom: 28px;
+            }
+            .hero-eyebrow {
+                font-size: 0.6rem;
+            }
+            .hero-eyebrow::before {
+                width: 20px;
+            }
+            .section-title {
+                font-size: 0.95rem;
+                margin-bottom: 14px;
+                gap: 8px;
+            }
+            .section-title i {
+                font-size: 0.9rem;
+            }
+            footer {
+                margin-top: 36px;
+                padding-top: 18px;
+                font-size: 0.55rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .skill-pill {
+                padding: 8px 10px;
+                font-size: 0.6rem;
+            }
+            .nav-links {
+                gap: 10px;
+            }
+            .nav-links a {
+                font-size: 0.52rem;
+            }
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+            .project-title {
+                font-size: 0.85rem;
+            }
+            .project-desc {
+                font-size: 0.72rem;
+            }
+            .project-card {
+                padding: 14px 14px;
+            }
+        }
+
+        /* ── Touch-friendly hover states ── */
+        @media (hover: none) {
+            .skill-pill:hover {
+                border-color: var(--border);
+                transform: none;
+                box-shadow: none;
+                background: var(--card);
+            }
+            .project-card:hover {
+                border-color: var(--border);
+                transform: none;
+                box-shadow: none;
+            }
+            .project-card:hover .project-icon {
+                background: rgba(100, 240, 218, 0.06);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page -->
+    <div class="page">
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-eyebrow">// portfolio</div>
+            <h1>Projects &amp; <span>expertise</span></h1>
+            <p class="hero-sub">A selection of academic and research-driven work — spanning blockchain security, full-stack development, and cryptographic systems.</p>
+        </div>
+
+        <!-- Skills -->
+        <div class="section-title">
+            <i class="fas fa-code"></i> Core competencies
+        </div>
+        <div class="skills-grid">
+            <div class="skill-pill"><i class="fas fa-shield-alt"></i> Network Security</div>
+            <div class="skill-pill"><i class="fas fa-lock"></i> Cryptography</div>
+            <div class="skill-pill"><i class="fab fa-python"></i> Python / Java / C</div>
+            <div class="skill-pill"><i class="fas fa-database"></i> MySQL</div>
+            <div class="skill-pill"><i class="fas fa-code"></i> Full-Stack Dev</div>
+            <div class="skill-pill"><i class="fas fa-robot"></i> Smart Contracts</div>
+            <div class="skill-pill"><i class="fas fa-ethereum"></i> Solidity / Ethereum</div>
+            <div class="skill-pill"><i class="fas fa-cloud"></i> Node.js / Express</div>
+        </div>
+
+        <!-- Projects -->
+        <div class="section-title" style="margin-top: 4px;">
+            <i class="fas fa-folder-open"></i> Featured work
+        </div>
+
+        <div class="projects-grid">
+
+            <!-- Project 1: Blockchain Security -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon"><i class="fas fa-link"></i></div>
+                    <div class="project-title">Securing Blockchain Ecosystems</div>
+                </div>
+                <div class="project-desc">
+                    Developed a security framework using Solidity smart contracts to mitigate Sybil and Race attacks. Implemented nonce-based transaction validation and leveraged Proof of Work for enhanced network trust.
+                </div>
+                <div class="project-tech">
+                    <span>Solidity</span>
+                    <span>Ethereum</span>
+                    <span>Smart Contracts</span>
+                    <span>Remix IDE</span>
+                    <span>PoW</span>
+                </div>
+                <div class="project-tag">🔐 Security</div>
+            </div>
+
+            <!-- Project 2: E-Waste Locator (SIH) -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon"><i class="fas fa-recycle"></i></div>
+                    <div class="project-title">E-Waste Locator</div>
+                </div>
+                <div class="project-desc">
+                    Full-stack web app for responsible e-waste disposal — helps users locate nearby collection centers. Built with Node.js, Express, and interactive front-end with location-based search.
+                </div>
+                <div class="project-tech">
+                    <span>HTML/CSS</span>
+                    <span>JavaScript</span>
+                    <span>Node.js</span>
+                    <span>Express</span>
+                    <span>REST APIs</span>
+                </div>
+                <div class="project-tag">🌍 Sustainability</div>
+            </div>
+
+            <!-- Project 3: Secure Login System -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon"><i class="fas fa-user-lock"></i></div>
+                    <div class="project-title">Secure Login Authentication</div>
+                </div>
+                <div class="project-desc">
+                    Full-stack authentication system with bcrypt password hashing and JWT-based access control. Built responsive interfaces and secure RESTful APIs with Node.js and Express.
+                </div>
+                <div class="project-tech">
+                    <span>Node.js</span>
+                    <span>Express</span>
+                    <span>JWT</span>
+                    <span>bcrypt</span>
+                    <span>HTML/CSS</span>
+                </div>
+                <div class="project-tag">🔑 Auth</div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <span>✦</span> built with curiosity &amp; precision <span>✦</span>
+        </footer>
+
+    </div>
+
+    <script>
+        /* ── Particle Network ── */
+        (function() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let W, H, dots = [];
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }
+
+            function makeDot() {
+                return {
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: Math.random() * 1.6 + 0.3,
+                    vx: (Math.random() - 0.5) * 0.2,
+                    vy: (Math.random() - 0.5) * 0.2,
+                    alpha: Math.random() * 0.35 + 0.08
+                };
+            }
+
+            function init() {
+                resize();
+                dots = Array.from({ length: 80 }, makeDot);
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                dots.forEach(d => {
+                    d.x += d.vx;
+                    d.y += d.vy;
+                    if (d.x < 0) d.x = W;
+                    if (d.x > W) d.x = 0;
+                    if (d.y < 0) d.y = H;
+                    if (d.y > H) d.y = 0;
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(100, 240, 218, ${d.alpha})`;
+                    ctx.fill();
+                });
+                for (let i = 0; i < dots.length; i++) {
+                    for (let j = i + 1; j < dots.length; j++) {
+                        const dx = dots[i].x - dots[j].x;
+                        const dy = dots[i].y - dots[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 130) {
+                            ctx.beginPath();
+                            ctx.moveTo(dots[i].x, dots[i].y);
+                            ctx.lineTo(dots[j].x, dots[j].y);
+                            ctx.strokeStyle = `rgba(100, 240, 218, ${0.035 * (1 - dist / 130)})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', resize);
+            init();
+            draw();
+        })();
+    </script>
+
+</body>
+</html>
